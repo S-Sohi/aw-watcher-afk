@@ -31,6 +31,8 @@ def parse_args():
         description="A watcher for keyboard and mouse input to detect AFK state."
     )
     parser.add_argument("--host", dest="host")
+    parser.add_argument("--token", dest="token")
+    parser.add_argument("--teamId", dest="teamId")
     parser.add_argument("--port", dest="port")
     parser.add_argument(
         "--testing", dest="testing", action="store_true", help="run in testing mode"
