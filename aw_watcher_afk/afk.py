@@ -48,9 +48,7 @@ class AFKWatcher:
         self.client = ActivityWatchClient(
             args.token,"aw-watcher-afk", host=args.host, port=args.port, testing=testing
         )
-        self.bucketname = "{}_{}".format(
-            self.client.client_name, self.client.client_hostname
-        )
+        self.bucket_id = 0
         self.team_id = int(args.teamId)
 
     def ping(self, afk: bool, timestamp: datetime, duration: float = 0):
@@ -58,7 +56,7 @@ class AFKWatcher:
         e = Event(timestamp=timestamp, duration=duration, data=data)
         e['team_id']= self.team_id
         pulsetime = self.settings.timeout + self.settings.poll_time
-        self.client.heartbeat(self.bucketname, e, pulsetime=pulsetime, queued=True)
+        self.client.heartbeat(self.bucket_id, e, pulsetime=pulsetime, queued=True)
 
     def run(self):
         logger.info("aw-watcher-afk started")
@@ -67,7 +65,7 @@ class AFKWatcher:
         sleep(1)
 
         eventtype = "afkstatus"
-        self.client.create_bucket(self.bucketname, eventtype, queued=True)
+        self.bucket_id = self.client.create_bucket(self.bucket_id, eventtype, queued=True)
 
         # Start afk checking loop
         with self.client:
