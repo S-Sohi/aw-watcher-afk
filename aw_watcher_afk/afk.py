@@ -65,8 +65,7 @@ class AFKWatcher:
         sleep(1)
 
         eventtype = "afkstatus"
-        self.bucket_id = self.client.create_bucket(self.bucket_id, eventtype, queued=True)
-
+        self.bucket_id = self.client.create_bucket(self.bucket_id, eventtype, queued=False)
         # Start afk checking loop
         with self.client:
             self.heartbeat_loop()
